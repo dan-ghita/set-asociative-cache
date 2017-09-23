@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AssociativeCacheUnitTests.cs" />
+    <Compile Remove="LRUAssocaitiveCacheUnitTests.cs" />
+    <Compile Remove="RandomEvictionAssocaitiveCacheUnitTests.cs" />
   </ItemGroup>
 
   <ItemGroup>

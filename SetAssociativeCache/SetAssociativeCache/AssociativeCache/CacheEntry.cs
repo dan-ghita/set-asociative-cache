@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SetAssociativeCache
 {
-    class CacheEntry<TValue>
+    public class CacheEntry<TValue>
     {
         public CacheEntry(int tag, TValue value)
         {
