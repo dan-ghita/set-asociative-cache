@@ -1,8 +1,10 @@
 ﻿
+using BinaryFormatter;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using Marshal = System.Runtime.InteropServices.Marshal;
 
 namespace SetAssociativeCache
