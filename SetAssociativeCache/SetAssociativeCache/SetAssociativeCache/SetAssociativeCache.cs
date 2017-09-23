@@ -34,8 +34,10 @@ namespace SetAssociativeCache
             int sizeOfBlock = Marshal.SizeOf(default(TValue));
             int setCount = cacheSizeInKb / numberOfWays / sizeOfBlock;
 
-            associativeCacheSet = Enumerable.Range(0, setCount).Select(i => associativeCacheFactory(numberOfWays)).ToList();    
+            associativeCacheSet = Enumerable.Range(0, setCount).Select(i => associativeCacheFactory(numberOfWays)).ToList();
+            numberOfSetBits = new Lazy<int>(() => (int)Math.Log(associativeCacheSet.Count(), 2));
         }
+
 
         /// <summary>
         /// Adds the specified key.
@@ -65,13 +67,26 @@ namespace SetAssociativeCache
 
         private int GetSetIndex(BitArray bits)
         {
-            return 0;
+            BitArray setBits = new BitArray(numberOfSetBits.Value);
+
+            for (int i = 0; i < numberOfSetBits.Value; ++i)
+                setBits.Set(i, bits.Get(i));
+
+            return BitConverter.ConvertToInt(setBits);
         }
 
 
         private BitArray GetTag(BitArray bits)
         {
-            return bits;
+            BitArray tagBits = new BitArray(numberOfSetBits.Value);
+
+            for (int i = numberOfSetBits.Value; i < bits.Length; ++i)
+                tagBits.Set(i, bits.Get(i));
+
+            return tagBits;
         }
+
+
+        private Lazy<int> numberOfSetBits;
     }
 }

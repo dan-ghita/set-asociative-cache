@@ -30,6 +30,14 @@ namespace SetAssociativeCache
             return bc.Serialize(obj);
         }
 
+        public static int ConvertToInt(BitArray bits)
+        {
+            int[] array = new int[1];
+            ((ICollection)bits).CopyTo(array, 0);
+
+            return array[0];
+        }
+
 
         /// <summary>
         /// Determines whether the other object is equal.

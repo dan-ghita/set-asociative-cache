@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Xunit;
 
 namespace SetAssociativeCache.Test.Shared
@@ -34,5 +35,12 @@ namespace SetAssociativeCache.Test.Shared
             Assert.Equal(true, BitConverter.IsEqual(BitConverter.ObjectToBits(a), BitConverter.ObjectToBits(a)));
             Assert.Equal(true, BitConverter.IsEqual(BitConverter.ObjectToBits(b), BitConverter.ObjectToBits(c)));
         }
+
+        [Theory]
+        [InlineData(new[] { true, true, false, false }, 3)]
+        [InlineData(new[] { true, true, false, true }, 11)]
+        [InlineData(new[] { false, false, true, true }, 12)]
+        public void ConvertToInt_ReturnsExpectedValue(bool[] binaryNuber, int decimalNumber)
+            => Assert.Equal(decimalNumber, BitConverter.ConvertToInt(new BitArray(binaryNuber)));
     }
 }
