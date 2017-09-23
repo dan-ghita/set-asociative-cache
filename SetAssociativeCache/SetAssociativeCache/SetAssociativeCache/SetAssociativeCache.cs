@@ -1,9 +1,6 @@
-﻿
-using BinaryFormatter;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Marshal = System.Runtime.InteropServices.Marshal;
 
@@ -31,8 +28,9 @@ namespace SetAssociativeCache
         /// <param name="associativeCacheFactory">The associative cache factory.</param>
         public SetAssociativeCache(int cacheSizeInKb, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory)
         {
-            int sizeOfBlock = Marshal.SizeOf(default(TValue));
-            int setCount = cacheSizeInKb / numberOfWays / sizeOfBlock;
+            //int sizeOfBlockInBytes = Marshal.SizeOf(typeof(TValue));
+            int sizeOfBlockInBytes = 64;
+            int setCount = cacheSizeInKb * 1024 / sizeOfBlockInBytes / numberOfWays;
 
             associativeCacheSet = Enumerable.Range(0, setCount).Select(i => associativeCacheFactory(numberOfWays)).ToList();
             numberOfSetBits = new Lazy<int>(() => (int)Math.Log(associativeCacheSet.Count(), 2));
@@ -78,10 +76,10 @@ namespace SetAssociativeCache
 
         private BitArray GetTag(BitArray bits)
         {
-            BitArray tagBits = new BitArray(numberOfSetBits.Value);
+            BitArray tagBits = new BitArray(bits.Length - numberOfSetBits.Value);
 
             for (int i = numberOfSetBits.Value; i < bits.Length; ++i)
-                tagBits.Set(i, bits.Get(i));
+                tagBits.Set(i - numberOfSetBits.Value, bits.Get(i));
 
             return tagBits;
         }
