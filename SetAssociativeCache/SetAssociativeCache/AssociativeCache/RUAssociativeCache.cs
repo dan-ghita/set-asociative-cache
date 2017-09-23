@@ -1,26 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace SetAssociativeCache
 {
     public abstract class RUAssociativeCache<TValue> : IAssociativeCache<TValue>
     {
-        protected IDictionary<int, CacheNode<TValue>> nodePointer;
+        protected IDictionary<BitArray, CacheNode<TValue>> nodePointer;
         protected CacheNode<TValue> root, tail;
 
         public RUAssociativeCache(int size)
         {
             m_cacheSize = size;
-            nodePointer = new Dictionary<int, CacheNode<TValue>>();
+            nodePointer = new Dictionary<BitArray, CacheNode<TValue>>(new BitArrayComparer());
 
-            root = new CacheNode<TValue>(-1, default(TValue));
-            tail = new CacheNode<TValue>(-1, default(TValue));
+            root = new CacheNode<TValue>(new BitArray(0), default(TValue));
+            tail = new CacheNode<TValue>(new BitArray(0), default(TValue));
 
             root.Next = tail;
             tail.Previous = root;
         }
 
 
-        public void Add(int tag, TValue value)
+        public void Add(BitArray tag, TValue value)
         {
             if (nodePointer.ContainsKey(tag))
             {
@@ -40,7 +41,7 @@ namespace SetAssociativeCache
         }
 
 
-        public TValue Get(int tag)
+        public TValue Get(BitArray tag)
         {
             if (nodePointer.ContainsKey(tag))
             {

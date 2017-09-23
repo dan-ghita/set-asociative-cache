@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace SetAssociativeCache
         /// </summary>
         /// <param name="tag">The tag.</param>
         /// <param name="value">The value.</param>
-        void Add(int tag, TValue value);
+        void Add(BitArray tag, TValue value);
 
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace SetAssociativeCache
         /// </summary>
         /// <param name="tag">The tag.</param>
         /// <returns></returns>
-        TValue Get(int tag);
+        TValue Get(BitArray tag);
 
 
         /// <summary>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections;
 
 namespace SetAssociativeCache
 {
@@ -10,7 +8,7 @@ namespace SetAssociativeCache
         public CacheNode<TValue> Previous { get; set; }
         public CacheNode<TValue> Next { get; set; }
 
-        public CacheNode(int tag, TValue value)
+        public CacheNode(BitArray tag, TValue value)
         {
             Value = new CacheEntry<TValue>(tag, value);
             Previous = null;

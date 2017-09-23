@@ -43,7 +43,11 @@ namespace SetAssociativeCache
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         public void Add(TKey key, TValue value)
-            => associativeCacheSet.ElementAt(GetSetIndex(key)).Add(GetTag(key), value);
+        {
+            BitArray bits = BitConverter.ObjectToBits(key);
+
+            associativeCacheSet.ElementAt(GetSetIndex(bits)).Add(GetTag(bits), value);
+        }
 
 
         /// <summary>
@@ -52,18 +56,22 @@ namespace SetAssociativeCache
         /// <param name="key">The key.</param>
         /// <returns></returns>
         public TValue Get(TKey key)
-            => associativeCacheSet.ElementAt(GetSetIndex(key)).Get(GetTag(key));
+        {
+            BitArray bits = BitConverter.ObjectToBits(key);
+
+            return associativeCacheSet.ElementAt(GetSetIndex(bits)).Get(GetTag(bits));
+        }
 
 
-        private int GetSetIndex(TKey key)
+        private int GetSetIndex(BitArray bits)
         {
             return 0;
         }
 
 
-        private int GetTag(TKey key)
+        private BitArray GetTag(BitArray bits)
         {
-            return 0;
+            return bits;
         }
     }
 }

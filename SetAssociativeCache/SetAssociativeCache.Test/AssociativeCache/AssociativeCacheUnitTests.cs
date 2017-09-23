@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using Xunit;
 
@@ -9,7 +10,7 @@ namespace SetAssociativeCache.Test
         [Fact]
         public void Add_PersistsElement()
         {
-            int tag = new Random().Next();
+            BitArray tag = new BitArray(new Random().Next());
             string value = "testValue";
 
             m_cache.Add(tag, value);
@@ -26,21 +27,21 @@ namespace SetAssociativeCache.Test
 
             for (int i = m_cacheSize; i < 2 * m_cacheSize; ++i)
             {
-                m_cache.Add(i, i.ToString());
+                m_cache.Add(new BitArray(i), i.ToString());
                 Assert.Equal(m_cacheSize, m_cache.Size);
-                Assert.Equal(i.ToString(), m_cache.Get(i));
+                Assert.Equal(i.ToString(), m_cache.Get(new BitArray(i)));
             }
         }
 
         protected void FillCacheAndValidate()
         {
             for (int i = 0; i < m_cacheSize; ++i)
-                m_cache.Add(i, i.ToString());
+                m_cache.Add(new BitArray(i), i.ToString());
 
             Assert.Equal(m_cacheSize, m_cache.Size);
 
             for (int i = 0; i < m_cacheSize; ++i)
-                Assert.Equal(i.ToString(), m_cache.Get(i));
+                Assert.Equal(i.ToString(), m_cache.Get(new BitArray(i)));
         }
 
         protected int m_cacheSize = 5;
