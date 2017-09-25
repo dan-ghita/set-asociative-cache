@@ -9,7 +9,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         public SetAssociativeLRUCacheUnitTests()
         {
             m_cache = new SetAssociativeCache<string, string>(m_cacheSizeInKb, m_numberOfWays,
-                (size) => new LRUAssociativeCache<string>(size));
+                (size) => new LRUAssociativeCache<string>(size), m_bitConverter);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SetAssociativeCache.Shared;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,8 +45,8 @@ namespace SetAssociativeCache
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
         /// <exception cref="NotImplementedException"></exception>
-        public TValue Get(BitArray tag) => m_container.Any(element => BitConverter.IsEqual(element.Tag, tag))
-            ? m_container.Where(element => BitConverter.IsEqual(element.Tag, tag)).First().Data
+        public TValue Get(BitArray tag) => m_container.Any(element => element.Tag.IsEqual(tag))
+            ? m_container.Where(element => element.Tag.IsEqual(tag)).First().Data
             : default(TValue);
 
 

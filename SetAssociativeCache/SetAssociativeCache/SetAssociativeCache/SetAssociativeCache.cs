@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SetAssociativeCache.Shared;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace SetAssociativeCache
         /// <param name="cacheSizeInKb">The cache size in kb.</param>
         /// <param name="numberOfWays">The number of ways.</param>
         /// <param name="associativeCacheFactory">The associative cache factory.</param>
-        public SetAssociativeCache(int cacheSizeInKb, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory)
+        public SetAssociativeCache(int cacheSizeInKb, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory, IBitConverter bitConverter)
         {
             //int sizeOfBlockInBytes = Marshal.SizeOf(typeof(TValue));
             int sizeOfBlockInBytes = 64;
@@ -34,6 +35,8 @@ namespace SetAssociativeCache
 
             associativeCacheSet = Enumerable.Range(0, setCount).Select(i => associativeCacheFactory(numberOfWays)).ToList();
             numberOfSetBits = new Lazy<int>(() => (int)Math.Log(associativeCacheSet.Count(), 2));
+
+            BitConverter = bitConverter;
         }
 
 
@@ -62,6 +65,10 @@ namespace SetAssociativeCache
             return associativeCacheSet.ElementAt(GetSetIndex(bits)).Get(GetTag(bits));
         }
 
+        /// <summary>
+        /// Gets the count of elements in the cache
+        /// </summary>
+        public int Size => associativeCacheSet.Sum(set => set.Size);
 
         private int GetSetIndex(BitArray bits)
         {
@@ -84,6 +91,7 @@ namespace SetAssociativeCache
             return tagBits;
         }
 
+        public IBitConverter BitConverter { get; set; }
 
         private Lazy<int> numberOfSetBits;
     }

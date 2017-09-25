@@ -26,5 +26,7 @@ namespace SetAssociativeCache
         /// <param name="key">The key.</param>
         /// <returns></returns>
         TValue Get(TKey key);
+
+        int Size { get; }
     }
 }

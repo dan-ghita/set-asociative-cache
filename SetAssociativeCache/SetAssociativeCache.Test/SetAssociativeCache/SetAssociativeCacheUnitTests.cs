@@ -1,11 +1,15 @@
-using System;
-using System.Collections;
+using SetAssociativeCache.Shared;
 using Xunit;
 
 namespace SetAssociativeCache.Test.SetAssociativeCache
 {
     public abstract class SetAssociativeCacheUnitTests
     {
+        public SetAssociativeCacheUnitTests()
+        {
+            m_bitConverter = new BitConverter();
+        }
+
         [Fact]
         public void Add_PersistsElement()
         {
@@ -23,5 +27,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         protected int m_numberOfWays = 2;
 
         protected ISetAssociativeCache<string, string> m_cache;
+
+        protected IBitConverter m_bitConverter;
     }
 }

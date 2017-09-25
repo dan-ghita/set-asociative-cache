@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace SetAssociativeCache
+namespace SetAssociativeCache.Shared
 {
     public class BitArrayComparer : IEqualityComparer<BitArray>
     {
