@@ -16,7 +16,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         public override void RegisterCacheWithMock(Mock<IBitConverter> bitConverterMock)
         {
             // 1 * 1024 / 64 = 16 -> first 4 bit for set index
-            ISetAssociativeCache<string, string> m_cache = new SetAssociativeCache<string, string>(1, 1,
+            m_cache = new SetAssociativeCache<string, string>(1, 1,
                 (size) => new RandomEvictionAssociativeCache<string>(size), bitConverterMock.Object);
         }
     }

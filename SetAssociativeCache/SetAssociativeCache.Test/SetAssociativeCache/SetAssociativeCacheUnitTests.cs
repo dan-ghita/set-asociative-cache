@@ -26,16 +26,16 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         [Fact]
         public void AddToOneWayCache_SimilarSetBits_ReplacesOldValue()
         {
-            Mock<IBitConverter> bitConverterMock = new Mock<IBitConverter>();
-            bitConverterMock.Setup(bc => bc.ObjectToBits("1")).Returns(new BitArray(new[] { true, false, false, true, false }));
-            bitConverterMock.Setup(bc => bc.ObjectToBits("2")).Returns(new BitArray(new[] { true, false, false, true, true }));
-
-            RegisterCacheWithMock(bitConverterMock);
-
             string key1 = "1";
             string key2 = "2";
             string value1 = "value1";
             string value2 = "value2";
+
+            Mock<IBitConverter> bitConverterMock = new Mock<IBitConverter>();
+            bitConverterMock.Setup(bc => bc.ObjectToBits(key1)).Returns(new BitArray(new[] { true, false, false, true, false }));
+            bitConverterMock.Setup(bc => bc.ObjectToBits(key2)).Returns(new BitArray(new[] { true, false, false, true, true }));
+
+            RegisterCacheWithMock(bitConverterMock);
 
             m_cache.Add(key1, value1);
             Assert.Equal(value1, m_cache.Get(key1));
@@ -50,17 +50,17 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         [Fact]
         public void AddToOneWayCache_DifferentSetBits_DoesNotReplaceOldValue()
         {
-            Mock<IBitConverter> bitConverterMock = new Mock<IBitConverter>();
-            bitConverterMock.Setup(bc => bc.ObjectToBits("1")).Returns(new BitArray(new[] { true, false, false, true, false }));
-            bitConverterMock.Setup(bc => bc.ObjectToBits("2")).Returns(new BitArray(new[] { true, true, false, true, true }));
-            bitConverterMock.Setup(bc => bc.ConvertToInt(It.IsAny<BitArray>())).Returns<BitArray>(b => (new BitConverter()).ConvertToInt(b));
-
-            RegisterCacheWithMock(bitConverterMock);
-
             string key1 = "1";
             string key2 = "2";
             string value1 = "value1";
             string value2 = "value2";
+
+            Mock<IBitConverter> bitConverterMock = new Mock<IBitConverter>();
+            bitConverterMock.Setup(bc => bc.ObjectToBits(key1)).Returns(new BitArray(new[] { true, false, false, true, false }));
+            bitConverterMock.Setup(bc => bc.ObjectToBits(key2)).Returns(new BitArray(new[] { true, true, false, true, true }));
+            bitConverterMock.Setup(bc => bc.ConvertToInt(It.IsAny<BitArray>())).Returns<BitArray>(b => (new BitConverter()).ConvertToInt(b));
+
+            RegisterCacheWithMock(bitConverterMock);
 
             m_cache.Add(key1, value1);
             m_cache.Add(key2, value2);
