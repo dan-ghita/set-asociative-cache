@@ -1,9 +1,6 @@
-﻿using SetAssociativeCache.Shared;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Marshal = System.Runtime.InteropServices.Marshal;
 
 namespace SetAssociativeCache
 {
@@ -27,7 +24,7 @@ namespace SetAssociativeCache
         /// <param name="cacheSizeInKb">The cache size in kb.</param>
         /// <param name="numberOfWays">The number of ways.</param>
         /// <param name="associativeCacheFactory">The associative cache factory.</param>
-        public SetAssociativeCache(int cacheSizeInKb, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory, IBitConverter bitConverter)
+        public SetAssociativeCache(int cacheSizeInKb, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory)
         {
             //int sizeOfBlockInBytes = Marshal.SizeOf(typeof(TValue));
             int sizeOfBlockInBytes = 64;

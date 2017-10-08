@@ -1,6 +1,3 @@
-using Moq;
-using SetAssociativeCache.Shared;
-using System.Collections;
 using Xunit;
 
 namespace SetAssociativeCache.Test.SetAssociativeCache
@@ -9,7 +6,6 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
     {
         public SetAssociativeCacheUnitTests()
         {
-            m_bitConverter = new BitConverter();
         }
 
         [Fact]
@@ -30,9 +26,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             string value1 = "value1";
             string value2 = "value2";
 
-            Mock<IBitConverter> bitConverterMock = new Mock<IBitConverter>();
-
-            RegisterCacheWithMock(bitConverterMock);
+            RegisterCacheWithMock();
 
             m_cache.Add(key, value1);
             Assert.Equal(value1, m_cache.Get(key));
@@ -52,9 +46,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             string value1 = "value1";
             string value2 = "value2";
 
-            Mock<IBitConverter> bitConverterMock = new Mock<IBitConverter>();
-
-            RegisterCacheWithMock(bitConverterMock);
+            RegisterCacheWithMock();
 
             m_cache.Add(key1, value1);
             m_cache.Add(key2, value2);
@@ -64,14 +56,12 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             Assert.Equal(value2, m_cache.Get(key2));
         }
 
-        public abstract void RegisterCacheWithMock(Mock<IBitConverter> bitConverter);
+        public abstract void RegisterCacheWithMock();
 
         protected int m_cacheSizeInKb = 64;
 
         protected int m_numberOfWays = 2;
 
         protected ISetAssociativeCache<string, string> m_cache;
-
-        protected IBitConverter m_bitConverter;
     }
 }
