@@ -23,10 +23,19 @@ namespace SetAssociativeCache
         /// </summary>
         /// <param name="numberOfSets">The number of sets.</param>
         /// <param name="numberOfWays">The number of ways.</param>
+        /// <remarks>Default replacement strategy is LRU</remarks>
+        public SetAssociativeCache(int numberOfSets, int numberOfWays) : this(numberOfSets, numberOfWays, (size) => new LRUAssociativeCache<TValue>(size)) { };
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SetAssociativeCache{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="numberOfSets">The number of sets.</param>
+        /// <param name="numberOfWays">The number of ways.</param>
         /// <param name="associativeCacheFactory">The associative cache factory.</param>
         public SetAssociativeCache(int numberOfSets, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory)
         {
-            m_numberOfSetBits = (int)Math.Log(numberOfSets, 2); 
+            m_numberOfSetBits = (int)Math.Log(numberOfSets, 2);
 
             associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(
                 () => Enumerable.Range(0, numberOfSets).Select(i => associativeCacheFactory(numberOfWays)).ToList());
