@@ -1,32 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SetAssociativeCache
+﻿namespace SetAssociativeCache
 {
     /// <summary>
-    /// 
+    /// Set associative cache interface
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TValue">The type of the value.</typeparam>
     public interface ISetAssociativeCache<TKey, TValue>
     {
         /// <summary>
-        /// Adds the specified key.
+        /// Adds element to cache.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        /// <returns></returns>
         void Add(TKey key, TValue value);
 
 
         /// <summary>
-        /// Gets the specified key.
+        /// Gets element from cache.
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <returns></returns>
+        /// <returns>Value of the element if found, null otherwise.</returns>
         TValue Get(TKey key);
 
-        int Size { get; }
+
+        /// <summary>
+        /// Counts the elements in the cache.
+        /// </summary>
+        /// <returns>The count.</returns>
+        int Count { get; }
     }
 }

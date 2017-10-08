@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SetAssociativeCache
+﻿namespace SetAssociativeCache
 {
     /// <summary>
     /// Associative cache interface
@@ -23,14 +18,14 @@ namespace SetAssociativeCache
         /// Get element from cache
         /// </summary>
         /// <param name="tag">The tag.</param>
-        /// <returns></returns>
+        /// <returns>Value if element is found, null otherwise</returns>
         TValue Get(int tag);
 
 
         /// <summary>
-        /// Sizes this instance.
+        /// Counts the elements in cache.
         /// </summary>
-        /// <returns></returns>
-        int Size { get; }
+        /// <returns>The size.</returns>
+        int Count { get; }
     }
 }

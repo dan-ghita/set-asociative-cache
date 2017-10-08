@@ -15,7 +15,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         [Fact]
         public void Add_PersistsElement()
         {
-            IKeyType key = new KeyType(new Random().Next());
+            IKeyType key = new KeyType();
             string value = "testValue";
 
             m_cache.Add(key, value);
@@ -45,7 +45,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             m_cache.Add(key2, value2);
             Assert.Equal(value2, m_cache.Get(key2));
 
-            Assert.Equal(1, m_cache.Size);
+            Assert.Equal(1, m_cache.Count);
             Assert.Equal(null, m_cache.Get(key1));
         }
 
@@ -61,7 +61,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             m_cache.Add(key1, value1);
             m_cache.Add(key2, value2);
 
-            Assert.Equal(2, m_cache.Size);
+            Assert.Equal(2, m_cache.Count);
             Assert.Equal(value1, m_cache.Get(key1));
             Assert.Equal(value2, m_cache.Get(key2));
         }

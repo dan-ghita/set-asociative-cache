@@ -15,7 +15,7 @@ namespace SetAssociativeCache.Test
 
             m_cache.Add(tag, value);
 
-            Assert.Equal(1, m_cache.Size);
+            Assert.Equal(1, m_cache.Count);
             Assert.Equal(value, m_cache.Get(tag));
         }
 
@@ -28,7 +28,7 @@ namespace SetAssociativeCache.Test
             for (int i = m_cacheSize; i < 2 * m_cacheSize; ++i)
             {
                 m_cache.Add(i, i.ToString());
-                Assert.Equal(m_cacheSize, m_cache.Size);
+                Assert.Equal(m_cacheSize, m_cache.Count);
                 Assert.Equal(i.ToString(), m_cache.Get(i));
             }
         }
@@ -38,7 +38,7 @@ namespace SetAssociativeCache.Test
             for (int i = 0; i < m_cacheSize; ++i)
                 m_cache.Add(i, i.ToString());
 
-            Assert.Equal(m_cacheSize, m_cache.Size);
+            Assert.Equal(m_cacheSize, m_cache.Count);
 
             for (int i = 0; i < m_cacheSize; ++i)
                 Assert.Equal(i.ToString(), m_cache.Get(i));

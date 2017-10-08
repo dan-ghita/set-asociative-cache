@@ -48,10 +48,9 @@ namespace SetAssociativeCache
 
 
         /// <summary>
-        /// Sizes this instance.
+        /// Counts the elements in cache.
         /// </summary>
-        /// <returns></returns>
-        public int Size => m_container.Count();
+        public int Count => m_container.Count();
 
 
         private void Insert(int tag, TValue value)

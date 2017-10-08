@@ -27,7 +27,7 @@ namespace SetAssociativeCache.Test
                 m_cache.Add(m_cacheSize + i, (m_cacheSize + i).ToString());
                 Assert.Equal(null, m_cache.Get(removalOrder[i]));
                 Assert.Equal((m_cacheSize + i).ToString(), m_cache.Get(m_cacheSize + i));
-                Assert.Equal(m_cacheSize, m_cache.Size);
+                Assert.Equal(m_cacheSize, m_cache.Count);
             }
 
             for (int i = m_cacheSize; i < 2 * m_cacheSize; ++i)

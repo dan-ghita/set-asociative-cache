@@ -6,7 +6,7 @@ namespace SetAssociativeCache.Test.Shared
     {
         int m_hashCode;
 
-        public KeyType(int hashCode) => m_hashCode = hashCode;
+        public KeyType(int? hashCode = null) => m_hashCode = hashCode ?? base.GetHashCode();
 
         public bool Equals(KeyType other)
         {
