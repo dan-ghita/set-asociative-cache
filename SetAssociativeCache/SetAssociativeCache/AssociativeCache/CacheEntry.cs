@@ -4,13 +4,13 @@ namespace SetAssociativeCache
 {
     public class CacheEntry<TValue>
     {
-        public CacheEntry(BitArray tag, TValue value)
+        public CacheEntry(int tag, TValue value)
         {
             Tag = tag;
             Data = value;
         }
         
-        public BitArray Tag { get; private set; }
+        public int Tag { get; private set; }
 
         public TValue Data { get; private set; }
     }

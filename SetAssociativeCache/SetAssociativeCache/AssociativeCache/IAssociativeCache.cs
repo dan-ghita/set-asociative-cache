@@ -16,7 +16,7 @@ namespace SetAssociativeCache
         /// </summary>
         /// <param name="tag">The tag.</param>
         /// <param name="value">The value.</param>
-        void Add(BitArray tag, TValue value);
+        void Add(int tag, TValue value);
 
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace SetAssociativeCache
         /// </summary>
         /// <param name="tag">The tag.</param>
         /// <returns></returns>
-        TValue Get(BitArray tag);
+        TValue Get(int tag);
 
 
         /// <summary>

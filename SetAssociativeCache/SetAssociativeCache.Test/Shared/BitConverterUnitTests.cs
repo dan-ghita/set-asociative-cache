@@ -26,27 +26,20 @@ namespace SetAssociativeCache.Test.Shared
             BitArray b1 = BitConverter.ObjectToBits(a);
             BitArray b2 = BitConverter.ObjectToBits(b);
 
-            Assert.Equal(areEqual, b1.IsEqual(b2));
+            Assert.Equal(areEqual, b1.Equals(b2));
         }
 
         [Fact]
         public void ObjectToBits_CustomTypes_ReturnsExpectedResult()
         {
-            CacheNode<string> a = new CacheNode<string>(new BitArray(1), "1");
-            CacheNode<string> b = new CacheNode<string>(new BitArray(2), "2");
-            CacheNode<string> c = new CacheNode<string>(new BitArray(2), "2");
+            CacheNode<string> a = new CacheNode<string>(1, "1");
+            CacheNode<string> b = new CacheNode<string>(2, "2");
+            CacheNode<string> c = new CacheNode<string>(2, "2");
 
-            Assert.Equal(false, BitConverter.ObjectToBits(a).IsEqual(BitConverter.ObjectToBits(b)));
-            Assert.Equal(true, BitConverter.ObjectToBits(a).IsEqual(BitConverter.ObjectToBits(a)));
-            Assert.Equal(true, BitConverter.ObjectToBits(b).IsEqual(BitConverter.ObjectToBits(c)));
+            Assert.Equal(false, BitConverter.ObjectToBits(a).Equals(BitConverter.ObjectToBits(b)));
+            Assert.Equal(true, BitConverter.ObjectToBits(a).Equals(BitConverter.ObjectToBits(a)));
+            Assert.Equal(true, BitConverter.ObjectToBits(b).Equals(BitConverter.ObjectToBits(c)));
         }
-
-        [Theory]
-        [InlineData(new[] { true, true, false, false }, 3)]
-        [InlineData(new[] { true, true, false, true }, 11)]
-        [InlineData(new[] { false, false, true, true }, 12)]
-        public void ConvertToInt_ReturnsExpectedValue(bool[] binaryNuber, int decimalNumber)
-            => Assert.Equal(decimalNumber, BitConverter.ConvertToInt(new BitArray(binaryNuber)));
 
         public IBitConverter BitConverter { get; set; }
     }

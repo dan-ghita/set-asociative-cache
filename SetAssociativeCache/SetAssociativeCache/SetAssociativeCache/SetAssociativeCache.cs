@@ -35,8 +35,6 @@ namespace SetAssociativeCache
 
             associativeCacheSet = Enumerable.Range(0, setCount).Select(i => associativeCacheFactory(numberOfWays)).ToList();
             numberOfSetBits = new Lazy<int>(() => (int)Math.Log(associativeCacheSet.Count(), 2));
-
-            BitConverter = bitConverter;
         }
 
 
@@ -47,9 +45,7 @@ namespace SetAssociativeCache
         /// <param name="value">The value.</param>
         public void Add(TKey key, TValue value)
         {
-            BitArray bits = BitConverter.ObjectToBits(key);
-
-            associativeCacheSet.ElementAt(GetSetIndex(bits)).Add(GetTag(bits), value);
+            associativeCacheSet.ElementAt(GetSetIndex(key)).Add(GetTag(key), value);
         }
 
 
@@ -60,39 +56,23 @@ namespace SetAssociativeCache
         /// <returns></returns>
         public TValue Get(TKey key)
         {
-            BitArray bits = BitConverter.ObjectToBits(key);
-
-            return associativeCacheSet.ElementAt(GetSetIndex(bits)).Get(GetTag(bits));
+            return associativeCacheSet.ElementAt(GetSetIndex(key)).Get(GetTag(key));
         }
 
+        
         /// <summary>
         /// Gets the count of elements in the cache
         /// </summary>
         public int Size => associativeCacheSet.Sum(set => set.Size);
 
-        private int GetSetIndex(BitArray bits)
-        {
-            BitArray setBits = new BitArray(numberOfSetBits.Value);
 
-            for (int i = 0; i < numberOfSetBits.Value; ++i)
-                setBits.Set(i, bits.Get(i));
-
-            return BitConverter.ConvertToInt(setBits);
-        }
+        private int GetSetIndex(TKey key)
+            => Math.Abs(key.GetHashCode() % associativeCacheSet.Count);
 
 
-        private BitArray GetTag(BitArray bits)
-        {
-            BitArray tagBits = new BitArray(bits.Length - numberOfSetBits.Value);
-
-            for (int i = numberOfSetBits.Value; i < bits.Length; ++i)
-                tagBits.Set(i - numberOfSetBits.Value, bits.Get(i));
-
-            return tagBits;
-        }
-
-        public IBitConverter BitConverter { get; set; }
-
+        private int GetTag(TKey key)
+            => (int)(key.GetHashCode() / Math.Pow(10, associativeCacheSet.Count()));
+        
         private Lazy<int> numberOfSetBits;
     }
 }

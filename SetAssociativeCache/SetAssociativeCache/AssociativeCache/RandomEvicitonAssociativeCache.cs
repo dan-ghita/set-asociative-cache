@@ -29,7 +29,7 @@ namespace SetAssociativeCache
         /// </summary>
         /// <param name="tag">The tag.</param>
         /// <param name="value">The value.</param>
-        public void Add(BitArray tag, TValue value)
+        public void Add(int tag, TValue value)
         {
             if(m_container.Where(element => element.Tag.Equals(tag)).Count() == 0)
             {
@@ -45,8 +45,8 @@ namespace SetAssociativeCache
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
         /// <exception cref="NotImplementedException"></exception>
-        public TValue Get(BitArray tag) => m_container.Any(element => element.Tag.IsEqual(tag))
-            ? m_container.Where(element => element.Tag.IsEqual(tag)).First().Data
+        public TValue Get(int tag) => m_container.Any(element => element.Tag.Equals(tag))
+            ? m_container.Where(element => element.Tag.Equals(tag)).First().Data
             : default(TValue);
 
 
@@ -57,7 +57,7 @@ namespace SetAssociativeCache
         public int Size => m_container.Count();
 
 
-        private void Insert(BitArray tag, TValue value)
+        private void Insert(int tag, TValue value)
         {
             if(m_container.Count() == m_cacheSize)
             {

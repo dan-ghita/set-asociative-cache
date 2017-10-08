@@ -15,7 +15,7 @@ namespace SetAssociativeCache.Shared
 		/// <returns>
 		///   <c>true</c> if the other object is equal; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool IsEqual(this BitArray b1, BitArray b2)
+		public static bool Equals(this BitArray b1, BitArray b2)
 		{
 			if (b1.Length != b2.Length)
 				return false;

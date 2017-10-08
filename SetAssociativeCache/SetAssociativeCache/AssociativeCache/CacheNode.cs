@@ -8,7 +8,7 @@ namespace SetAssociativeCache
         public CacheNode<TValue> Previous { get; set; }
         public CacheNode<TValue> Next { get; set; }
 
-        public CacheNode(BitArray tag, TValue value)
+        public CacheNode(int tag, TValue value)
         {
             Value = new CacheEntry<TValue>(tag, value);
             Previous = null;
