@@ -15,7 +15,7 @@ namespace SetAssociativeCache
         /// <summary>
         /// The associative cache set
         /// </summary>
-        private IList<IAssociativeCache<TValue>> associativeCacheSet;
+        private Lazy<IList<IAssociativeCache<TValue>>> associativeCacheSet;
 
 
         /// <summary>
@@ -30,8 +30,8 @@ namespace SetAssociativeCache
             int sizeOfBlockInBytes = 64;
             int setCount = cacheSizeInKb * 1024 / sizeOfBlockInBytes / numberOfWays;
 
-            associativeCacheSet = Enumerable.Range(0, setCount).Select(i => associativeCacheFactory(numberOfWays)).ToList();
-            numberOfSetBits = new Lazy<int>(() => (int)Math.Log(associativeCacheSet.Count(), 2));
+            associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(
+                () => Enumerable.Range(0, setCount).Select(i => associativeCacheFactory(numberOfWays)).ToList());
         }
 
 
@@ -41,9 +41,7 @@ namespace SetAssociativeCache
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         public void Add(TKey key, TValue value)
-        {
-            associativeCacheSet.ElementAt(GetSetIndex(key)).Add(GetTag(key), value);
-        }
+            => associativeCacheSet.Value.ElementAt(GetSetIndex(key)).Add(GetTag(key), value);
 
 
         /// <summary>
@@ -52,24 +50,21 @@ namespace SetAssociativeCache
         /// <param name="key">The key.</param>
         /// <returns></returns>
         public TValue Get(TKey key)
-        {
-            return associativeCacheSet.ElementAt(GetSetIndex(key)).Get(GetTag(key));
-        }
+            => associativeCacheSet.Value.ElementAt(GetSetIndex(key)).Get(GetTag(key));
 
         
         /// <summary>
         /// Gets the count of elements in the cache
         /// </summary>
-        public int Size => associativeCacheSet.Sum(set => set.Size);
+        public int Size
+            => associativeCacheSet.Value.Sum(set => set.Size);
 
 
         private int GetSetIndex(TKey key)
-            => Math.Abs(key.GetHashCode() % associativeCacheSet.Count);
+            => Math.Abs(key.GetHashCode() % associativeCacheSet.Value.Count);
 
 
         private int GetTag(TKey key)
-            => (int)(key.GetHashCode() / Math.Pow(10, associativeCacheSet.Count()));
-        
-        private Lazy<int> numberOfSetBits;
+            => key.GetHashCode() - GetSetIndex(key);
     }
 }

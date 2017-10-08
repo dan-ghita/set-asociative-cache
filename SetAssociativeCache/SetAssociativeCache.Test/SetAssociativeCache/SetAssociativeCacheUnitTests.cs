@@ -1,3 +1,6 @@
+using Moq;
+using SetAssociativeCache.Test.Shared;
+using System;
 using Xunit;
 
 namespace SetAssociativeCache.Test.SetAssociativeCache
@@ -6,12 +9,13 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
     {
         public SetAssociativeCacheUnitTests()
         {
+            RegisterCache();
         }
 
         [Fact]
         public void Add_PersistsElement()
         {
-            string key = "testKey";
+            IKeyType key = new KeyType(new Random().Next());
             string value = "testValue";
 
             m_cache.Add(key, value);
@@ -22,31 +26,37 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         [Fact]
         public void AddToOneWayCache_SameKey_ReplacesOldValue()
         {
-            string key = "1";
+            m_numberOfWays = 1;
+            m_setCount = 1024;
+
+            int setIndex = new Random().Next() % m_setCount;
+
+            IKeyType key1 = new KeyType(setIndex);
+            IKeyType key2 = new KeyType(m_setCount + setIndex);
+
             string value1 = "value1";
             string value2 = "value2";
 
-            RegisterCacheWithMock();
+            RegisterCache();
 
-            m_cache.Add(key, value1);
-            Assert.Equal(value1, m_cache.Get(key));
+            m_cache.Add(key1, value1);
+            Assert.Equal(value1, m_cache.Get(key1));
 
-            m_cache.Add(key, value2);
-            Assert.Equal(value2, m_cache.Get(key));
+            m_cache.Add(key2, value2);
+            Assert.Equal(value2, m_cache.Get(key2));
 
             Assert.Equal(1, m_cache.Size);
-            Assert.Equal(null, m_cache.Get(key));
+            Assert.Equal(null, m_cache.Get(key1));
         }
 
         [Fact]
         public void AddToOneWayCache_DifferentSetBits_DoesNotReplaceOldValue()
         {
-            string key1 = "1";
-            string key2 = "2";
+            IKeyType key1 = new KeyType(1);
+            IKeyType key2 = new KeyType(2);
+
             string value1 = "value1";
             string value2 = "value2";
-
-            RegisterCacheWithMock();
 
             m_cache.Add(key1, value1);
             m_cache.Add(key2, value2);
@@ -56,12 +66,14 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             Assert.Equal(value2, m_cache.Get(key2));
         }
 
-        public abstract void RegisterCacheWithMock();
+        public abstract void RegisterCache();
 
         protected int m_cacheSizeInKb = 64;
 
-        protected int m_numberOfWays = 2;
+        protected int m_setCount = 256;
 
-        protected ISetAssociativeCache<string, string> m_cache;
+        protected int m_numberOfWays = 4;
+
+        protected ISetAssociativeCache<IKeyType, string> m_cache;
     }
 }
