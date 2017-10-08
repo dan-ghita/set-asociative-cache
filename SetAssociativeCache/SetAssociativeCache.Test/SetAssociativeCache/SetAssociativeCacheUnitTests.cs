@@ -68,8 +68,6 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
 
         public abstract void RegisterCache();
 
-        protected int m_cacheSizeInKb = 64;
-
         protected int m_setCount = 256;
 
         protected int m_numberOfWays = 4;

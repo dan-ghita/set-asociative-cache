@@ -24,14 +24,10 @@ namespace SetAssociativeCache
         /// <param name="cacheSizeInKb">The cache size in kb.</param>
         /// <param name="numberOfWays">The number of ways.</param>
         /// <param name="associativeCacheFactory">The associative cache factory.</param>
-        public SetAssociativeCache(int cacheSizeInKb, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory)
+        public SetAssociativeCache(int numberOfSets, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory)
         {
-            //int sizeOfBlockInBytes = Marshal.SizeOf(typeof(TValue));
-            int sizeOfBlockInBytes = 64;
-            int setCount = cacheSizeInKb * 1024 / sizeOfBlockInBytes / numberOfWays;
-
             associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(
-                () => Enumerable.Range(0, setCount).Select(i => associativeCacheFactory(numberOfWays)).ToList());
+                () => Enumerable.Range(0, numberOfSets).Select(i => associativeCacheFactory(numberOfWays)).ToList());
         }
 
 

@@ -6,7 +6,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
     {
         public override void RegisterCache()
         {
-            m_cache = new SetAssociativeCache<IKeyType, string>(m_cacheSizeInKb, m_numberOfWays,
+            m_cache = new SetAssociativeCache<IKeyType, string>(m_setCount, m_numberOfWays,
                 (size) => new MRUAssociativeCache<string>(size));
         }
     }
