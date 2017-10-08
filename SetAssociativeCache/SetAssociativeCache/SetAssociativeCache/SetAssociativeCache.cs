@@ -62,7 +62,7 @@ namespace SetAssociativeCache
         public void Clear() => associativeCacheSet.Value.ToList().ForEach(set => set.Clear());
 
 
-        private int GetSetIndex(TKey key) => Math.Abs(key.GetHashCode() % associativeCacheSet.Value.Count);
+        private int GetSetIndex(TKey key) => Math.Abs(key.GetHashCode() % (1 << m_numberOfSetBits));
 
 
         private int GetTag(TKey key) => key.GetHashCode() >> m_numberOfSetBits;
