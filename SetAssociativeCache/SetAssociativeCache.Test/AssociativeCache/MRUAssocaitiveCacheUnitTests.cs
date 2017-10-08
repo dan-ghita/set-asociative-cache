@@ -30,7 +30,7 @@ namespace SetAssociativeCache.Test
                 else
                     Assert.Equal(null, m_cache.Get(i - 1));
 
-                Assert.Equal((i).ToString(), m_cache.Get(i));
+                Assert.Equal(i.ToString(), m_cache.Get(i));
                 Assert.Equal(m_cacheSize, m_cache.Count);
             }
         }

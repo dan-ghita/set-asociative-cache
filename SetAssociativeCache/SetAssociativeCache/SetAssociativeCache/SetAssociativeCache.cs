@@ -56,6 +56,12 @@ namespace SetAssociativeCache
         public int Count => associativeCacheSet.Value.Sum(set => set.Count);
 
 
+        /// <summary>
+        /// Flushes the cache.
+        /// </summary>
+        public void Clear() => associativeCacheSet.Value.ToList().ForEach(set => set.Clear());
+
+
         private int GetSetIndex(TKey key) => Math.Abs(key.GetHashCode() % associativeCacheSet.Value.Count);
 
 

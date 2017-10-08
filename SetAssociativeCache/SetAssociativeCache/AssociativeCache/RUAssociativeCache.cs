@@ -78,6 +78,17 @@ namespace SetAssociativeCache
 
 
         /// <summary>
+        /// Flushes the cache.
+        /// </summary>
+        public void Clear()
+        {
+            nodePointer.Clear();
+            root.Next = tail;
+            tail.Previous = root;
+        }
+
+
+        /// <summary>
         /// Replaces the recently used.
         /// </summary>
         /// <param name="node">The node.</param>

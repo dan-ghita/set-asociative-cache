@@ -53,6 +53,12 @@ namespace SetAssociativeCache
         public int Count => m_container.Count();
 
 
+        /// <summary>
+        /// Flushes the cache.
+        /// </summary>
+        public void Clear() => m_container.Clear();
+
+
         private void Insert(int tag, TValue value)
         {
             if(m_container.Count() == m_cacheSize)

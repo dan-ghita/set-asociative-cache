@@ -28,5 +28,11 @@
         /// </summary>
         /// <returns>The count.</returns>
         int Count { get; }
+
+
+        /// <summary>
+        /// Flushes the cache.
+        /// </summary>
+        void Clear();
     }
 }

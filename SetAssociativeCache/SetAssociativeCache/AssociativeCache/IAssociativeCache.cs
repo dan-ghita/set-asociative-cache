@@ -27,5 +27,11 @@
         /// </summary>
         /// <returns>The size.</returns>
         int Count { get; }
+
+
+        /// <summary>
+        /// Flushes the cache.
+        /// </summary>
+        void Clear();
     }
 }
