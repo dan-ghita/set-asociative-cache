@@ -102,6 +102,27 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             Assert.Equal(m_cache.Count, m_setCount * m_numberOfWays);
         }
 
+        [Fact]
+        public void Add_CustomNoEvictionReplacementStrategy_DoesNotEvictWhenFull()
+        {
+            m_cache = new SetAssociativeCache<IKeyType, string>(m_setCount, m_numberOfWays,
+                (size) => new NoEvictionAssociativeCache<string>(size));
+
+            FillCacheAndValidate();
+
+            Random rand = new Random();
+
+            List<KeyValuePair<IKeyType, string>> newValues = new List<KeyValuePair<IKeyType, string>>();
+
+            for (int i = 0; i < m_setCount; ++i)
+                newValues.Add(new KeyValuePair<IKeyType, string>(new KeyType(i - m_setCount), rand.Next().ToString()));
+
+            newValues.ForEach(pair => m_cache.Add(pair.Key, pair.Value));
+
+            newValues.ForEach(pair => Assert.Equal(m_cache.Get(pair.Key), null));
+
+            Assert.Equal(m_cache.Count, m_setCount * m_numberOfWays);
+        }
 
         protected void FillCacheAndValidate()
         {
