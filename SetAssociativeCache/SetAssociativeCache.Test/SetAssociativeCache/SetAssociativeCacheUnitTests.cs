@@ -15,6 +15,14 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         public abstract void RegisterCache();
 
         [Fact]
+        public void Constructor_InvalidNumberOfSets_ThrowsArgumentException()
+        {
+            m_setCount = 5;
+
+            Assert.Throws<ArgumentException>(() => RegisterCache());
+        }
+
+        [Fact]
         public void Add_PersistsElement()
         {
             IKeyType key = new KeyType();

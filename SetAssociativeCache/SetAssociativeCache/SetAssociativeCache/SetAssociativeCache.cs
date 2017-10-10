@@ -37,6 +37,9 @@ namespace SetAssociativeCache
         {
             m_numberOfSetBits = (int)Math.Log(numberOfSets, 2);
 
+            if (numberOfSets != 1 << m_numberOfSetBits)
+                throw new ArgumentException("The provided numberOfSets must be a positive natural power of 2");
+
             associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(
                 () => Enumerable.Range(0, numberOfSets).Select(i => associativeCacheFactory(numberOfWays)).ToList());
         }
