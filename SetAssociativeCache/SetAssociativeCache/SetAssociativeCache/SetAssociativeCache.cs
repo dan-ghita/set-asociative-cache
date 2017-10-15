@@ -47,13 +47,13 @@ namespace SetAssociativeCache
         /// </summary>
         /// <param name="numberOfSets">The number of sets.</param>
         /// <param name="numberOfWays">The number of ways.</param>
-        /// <param name="evictionPolicy">The eviction policy.</param>
-        public SetAssociativeCache(int numberOfSets, int numberOfWays, IEvictionPolicy<TValue> evictionPolicy)
+        /// <param name="evictionPolicyFactory">The eviction policy factory.</param>
+        public SetAssociativeCache(int numberOfSets, int numberOfWays, Func<IEvictionPolicy<TValue>> evictionPolicyFactory)
         {
             m_numberOfSetBits = (int)Math.Log(numberOfSets, 2) + numberOfSets & 1;
 
             associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(() => Enumerable.Range(0, numberOfSets).Select(
-                i => (IAssociativeCache<TValue>)new CustomEvictionAssociativeCache<TValue>(numberOfWays, evictionPolicy)).ToList());
+                i => (IAssociativeCache<TValue>)new CustomEvictionAssociativeCache<TValue>(numberOfWays, evictionPolicyFactory())).ToList());
         }
 
 

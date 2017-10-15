@@ -7,7 +7,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         public override void RegisterCache()
         {
             m_cache = new SetAssociativeCache<IKeyType, string>(m_setCount, m_numberOfWays,
-                new RandomEvictionPolicy<string>());
+                () => new RandomEvictionPolicy<string>());
         }
     }
 }

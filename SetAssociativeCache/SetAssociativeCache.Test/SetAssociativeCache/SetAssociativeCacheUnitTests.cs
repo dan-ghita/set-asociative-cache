@@ -139,7 +139,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
 
         protected ISetAssociativeCache<IKeyType, string> m_cache;
 
-        private Random m_rand;
+        protected Random m_rand;
 
         private const int m_maxNumberOfSets = 1 << 10;
 

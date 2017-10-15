@@ -16,8 +16,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         [Fact]
         public void Add_CacheIsFull_ReplacesMostRecentlyUsed()
         {
-            Random rand = new Random();
-            int wayToBeUsed = rand.Next() % m_numberOfWays;
+            int wayToBeUsed = m_rand.Next() % m_numberOfWays;
 
             FillCacheAndValidate();
             UseCacheItems(wayToBeUsed);
@@ -25,7 +24,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             List<KeyValuePair<IKeyType, string>> newValues = new List<KeyValuePair<IKeyType, string>>();
 
             for (int i = 0; i < m_setCount; ++i)
-                newValues.Add(new KeyValuePair<IKeyType, string>(new KeyType(i - m_setCount), rand.Next().ToString()));
+                newValues.Add(new KeyValuePair<IKeyType, string>(new KeyType(i - m_setCount), m_rand.Next().ToString()));
 
             newValues.ForEach(pair => m_cache.Add(pair.Key, pair.Value));
 
