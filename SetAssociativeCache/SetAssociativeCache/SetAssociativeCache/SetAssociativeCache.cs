@@ -43,6 +43,21 @@ namespace SetAssociativeCache
 
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SetAssociativeCache{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="numberOfSets">The number of sets.</param>
+        /// <param name="numberOfWays">The number of ways.</param>
+        /// <param name="evictionPolicy">The eviction policy.</param>
+        public SetAssociativeCache(int numberOfSets, int numberOfWays, IEvictionPolicy<TValue> evictionPolicy)
+        {
+            m_numberOfSetBits = (int)Math.Log(numberOfSets, 2) + numberOfSets & 1;
+
+            associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(() => Enumerable.Range(0, numberOfSets).Select(
+                i => (IAssociativeCache<TValue>)new CustomEvictionAssociativeCache<TValue>(numberOfWays, evictionPolicy)).ToList());
+        }
+
+
+        /// <summary>
         /// Adds element to cache.
         /// </summary>
         /// <param name="key">The key.</param>

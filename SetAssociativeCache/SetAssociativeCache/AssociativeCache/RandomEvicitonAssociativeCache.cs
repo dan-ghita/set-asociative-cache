@@ -5,14 +5,14 @@ using System.Linq;
 namespace SetAssociativeCache
 {
     /// <summary>
-    /// LRU associative cache implementation
+    /// Random eviction associative cache implementation
     /// </summary>
     /// <typeparam name="TValue">The type of the value.</typeparam>
     /// <seealso cref="SetAssociativeCache.IAssociativeCache{TValue}" />
     public class RandomEvictionAssociativeCache<TValue> : IAssociativeCache<TValue>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LRUAssociativeCache{Tkey, TValue}" /> class.
+        /// Initializes a new instance of the <see cref="RandomEvictionAssociativeCache{Tkey, TValue}" /> class.
         /// </summary>
         /// <param name="size">The size.</param>
         public RandomEvictionAssociativeCache(int size)
