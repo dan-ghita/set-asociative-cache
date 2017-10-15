@@ -35,10 +35,7 @@ namespace SetAssociativeCache
         /// <param name="associativeCacheFactory">The associative cache factory.</param>
         public SetAssociativeCache(int numberOfSets, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory)
         {
-            m_numberOfSetBits = (int)Math.Log(numberOfSets, 2);
-
-            if (numberOfSets != 1 << m_numberOfSetBits)
-                throw new ArgumentException("The provided numberOfSets must be a positive natural power of 2");
+            m_numberOfSetBits = (int)Math.Log(numberOfSets, 2) + numberOfSets & 1;
 
             associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(
                 () => Enumerable.Range(0, numberOfSets).Select(i => associativeCacheFactory(numberOfWays)).ToList());
@@ -74,7 +71,7 @@ namespace SetAssociativeCache
         public void Clear() => associativeCacheSet.Value.ToList().ForEach(set => set.Clear());
 
 
-        private int GetSetIndex(TKey key) => Math.Abs(key.GetHashCode() % (1 << m_numberOfSetBits));
+        private int GetSetIndex(TKey key) => Math.Abs(key.GetHashCode() % associativeCacheSet.Value.Count());
 
 
         private int GetTag(TKey key) => key.GetHashCode() >> m_numberOfSetBits;

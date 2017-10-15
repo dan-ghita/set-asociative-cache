@@ -9,18 +9,14 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
     {
         public SetAssociativeCacheUnitTests()
         {
+            m_rand = new Random();
+            m_setCount = m_rand.Next(1, m_maxNumberOfSets);
+            m_numberOfWays = m_rand.Next(1, m_maxNumberOfWays);
+
             RegisterCache();
         }
 
         public abstract void RegisterCache();
-
-        [Fact]
-        public void Constructor_InvalidNumberOfSets_ThrowsArgumentException()
-        {
-            m_setCount = 5;
-
-            Assert.Throws<ArgumentException>(() => RegisterCache());
-        }
 
         [Fact]
         public void Add_PersistsElement()
@@ -39,7 +35,7 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
             m_numberOfWays = 1;
             m_setCount = 1024;
 
-            int setIndex = new Random().Next() % m_setCount;
+            int setIndex = m_rand.Next() % m_setCount;
 
             IKeyType key1 = new KeyType(setIndex);
             IKeyType key2 = new KeyType(m_setCount + setIndex);
@@ -96,12 +92,10 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
         {
             FillCacheAndValidate();
 
-            Random rand = new Random();
-
             List<KeyValuePair<IKeyType, string>> newValues = new List<KeyValuePair<IKeyType, string>>();
 
             for (int i = 0; i < m_setCount; ++i)
-                newValues.Add(new KeyValuePair<IKeyType, string>(new KeyType(i - m_setCount), rand.Next().ToString()));
+                newValues.Add(new KeyValuePair<IKeyType, string>(new KeyType(i - m_setCount), m_rand.Next().ToString()));
 
             newValues.ForEach(pair => m_cache.Add(pair.Key, pair.Value));
 
@@ -118,12 +112,10 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
 
             FillCacheAndValidate();
 
-            Random rand = new Random();
-
             List<KeyValuePair<IKeyType, string>> newValues = new List<KeyValuePair<IKeyType, string>>();
 
             for (int i = 0; i < m_setCount; ++i)
-                newValues.Add(new KeyValuePair<IKeyType, string>(new KeyType(i - m_setCount), rand.Next().ToString()));
+                newValues.Add(new KeyValuePair<IKeyType, string>(new KeyType(i - m_setCount), m_rand.Next().ToString()));
 
             newValues.ForEach(pair => m_cache.Add(pair.Key, pair.Value));
 
@@ -134,19 +126,23 @@ namespace SetAssociativeCache.Test.SetAssociativeCache
 
         protected void FillCacheAndValidate()
         {
-            Random rand = new Random();
-
             for (int i = 0; i < m_setCount; ++i)
                 for (int j = 0; j < m_numberOfWays; ++j)
-                    m_cache.Add(new KeyType(j * m_setCount + i), rand.Next().ToString());
+                    m_cache.Add(new KeyType(j * m_setCount + i), m_rand.Next().ToString());
 
             Assert.Equal(m_cache.Count, m_setCount * m_numberOfWays);
         }
 
-        protected int m_setCount = 256;
+        protected int m_setCount;
 
         protected int m_numberOfWays = 4;
 
         protected ISetAssociativeCache<IKeyType, string> m_cache;
+
+        private Random m_rand;
+
+        private const int m_maxNumberOfSets = 1 << 10;
+
+        private const int m_maxNumberOfWays = 1 << 10;
     }
 }
