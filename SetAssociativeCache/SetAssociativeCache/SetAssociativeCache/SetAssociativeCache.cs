@@ -35,8 +35,6 @@ namespace SetAssociativeCache
         /// <param name="associativeCacheFactory">The associative cache factory.</param>
         public SetAssociativeCache(int numberOfSets, int numberOfWays, Func<int, IAssociativeCache<TValue>> associativeCacheFactory)
         {
-            m_numberOfSetBits = (int)Math.Log(numberOfSets, 2) + numberOfSets & 1;
-
             associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(
                 () => Enumerable.Range(0, numberOfSets).Select(i => associativeCacheFactory(numberOfWays)).ToList());
         }
@@ -50,10 +48,9 @@ namespace SetAssociativeCache
         /// <param name="evictionPolicyFactory">The eviction policy factory.</param>
         public SetAssociativeCache(int numberOfSets, int numberOfWays, Func<IEvictionPolicy<TValue>> evictionPolicyFactory)
         {
-            m_numberOfSetBits = (int)Math.Log(numberOfSets, 2) + numberOfSets & 1;
-
-            associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(() => Enumerable.Range(0, numberOfSets).Select(
-                i => (IAssociativeCache<TValue>)new CustomEvictionAssociativeCache<TValue>(numberOfWays, evictionPolicyFactory())).ToList());
+            associativeCacheSet = new Lazy<IList<IAssociativeCache<TValue>>>(
+                () => Enumerable.Range(0, numberOfSets).Select(
+                    i => new CustomEvictionAssociativeCache<TValue>(numberOfWays, evictionPolicyFactory()) as IAssociativeCache<TValue>).ToList());
         }
 
 
@@ -89,9 +86,6 @@ namespace SetAssociativeCache
         private int GetSetIndex(TKey key) => Math.Abs(key.GetHashCode() % associativeCacheSet.Value.Count());
 
 
-        private int GetTag(TKey key) => key.GetHashCode() >> m_numberOfSetBits;
-
-
-        private int m_numberOfSetBits;
+        private int GetTag(TKey key) => key.GetHashCode();
     }
 }
