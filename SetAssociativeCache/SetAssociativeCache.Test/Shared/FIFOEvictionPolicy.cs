@@ -7,7 +7,7 @@ namespace SetAssociativeCache.Test.Shared
     {
         private int index = -1;
 
-        public int GetIndexToEvict(IList<CacheEntry<TValue>> container)
+        public int GetIndexToEvict(List<CacheEntry<TValue>> container)
             => index = ++index % container.Count;
     }
 }

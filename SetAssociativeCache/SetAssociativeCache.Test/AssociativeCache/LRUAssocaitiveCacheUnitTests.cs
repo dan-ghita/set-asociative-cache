@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Xunit;
+﻿using Xunit;
 
 namespace SetAssociativeCache.Test
 {

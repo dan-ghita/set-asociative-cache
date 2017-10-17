@@ -57,7 +57,7 @@ namespace SetAssociativeCache
             else
             {
                 foundElement.UpdateAccessTime();
-                return m_container.Where(element => element.Tag.Equals(tag)).First().Data
+                return m_container.Where(element => element.Tag.Equals(tag)).First().Data;
             }
         }
 

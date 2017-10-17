@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 
 namespace SetAssociativeCache
 {
@@ -24,7 +24,7 @@ namespace SetAssociativeCache
         /// <summary>
         /// Update access time
         /// </summary>
-        public void UpdateAccessTime() => AccessTime = DateTime.Now; 
+        public void UpdateAccessTime() => AccessTime = Stopwatch.GetTimestamp(); 
 
         /// <summary>
         /// Gets the tag.
@@ -42,6 +42,6 @@ namespace SetAssociativeCache
         /// Last access time
         /// </summary>
         /// <return>The access time.</return>
-        public DateTime AccessTime;
+        public long AccessTime;
     }
 }

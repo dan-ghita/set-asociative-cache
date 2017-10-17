@@ -12,6 +12,6 @@ namespace SetAssociativeCache
         /// Returns index which should be evicted.
         /// </summary>
         /// <param name="container">The container.</param>
-        int GetIndexToEvict(IList<CacheEntry<TValue>> container);
+        int GetIndexToEvict(List<CacheEntry<TValue>> container);
     }
 }
