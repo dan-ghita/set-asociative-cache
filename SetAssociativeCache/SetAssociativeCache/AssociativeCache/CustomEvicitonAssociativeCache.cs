@@ -38,7 +38,6 @@ namespace SetAssociativeCache
                 foundElement.UpdateAccessTime();
         }
 
-
         /// <summary>
         /// Get element from cache
         /// </summary>
@@ -57,7 +56,7 @@ namespace SetAssociativeCache
             else
             {
                 foundElement.UpdateAccessTime();
-                return m_container.Where(element => element.Tag.Equals(tag)).First().Data;
+                return foundElement.Data;
             }
         }
 
