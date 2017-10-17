@@ -9,9 +9,9 @@ namespace SetAssociativeCache
     public interface IEvictionPolicy<TValue>
     {
         /// <summary>
-        /// Evicts element from container.
+        /// Returns index which should be evicted.
         /// </summary>
         /// <param name="container">The container.</param>
-        void Evict(IList<CacheEntry<TValue>> container);
+        int GetIndexToEvict(IList<CacheEntry<TValue>> container);
     }
 }

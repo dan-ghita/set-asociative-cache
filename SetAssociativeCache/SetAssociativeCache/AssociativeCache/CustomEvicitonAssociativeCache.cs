@@ -61,10 +61,12 @@ namespace SetAssociativeCache
 
         private void Insert(int tag, TValue value)
         {
-            if (m_container.Count() == m_cacheSize)
-                m_evictionPolicy.Evict(m_container);
+            CacheEntry<TValue> newEntry = new CacheEntry<TValue>(tag, value);
 
-            m_container.Add(new CacheEntry<TValue>(tag, value));
+            if (m_container.Count() == m_cacheSize)
+                m_container[m_evictionPolicy.GetIndexToEvict(m_container)] = newEntry;
+            else
+                m_container.Add(newEntry);
         }
 
 

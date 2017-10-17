@@ -5,6 +5,9 @@ namespace SetAssociativeCache.Test.Shared
 {
     public class FIFOEvictionPolicy<TValue> : IEvictionPolicy<TValue>
     {
-        public void Evict(IList<CacheEntry<TValue>> container) => container.RemoveAt(0);
+        private int index = -1;
+
+        public int GetIndexToEvict(IList<CacheEntry<TValue>> container)
+            => index = ++index % container.Count;
     }
 }
