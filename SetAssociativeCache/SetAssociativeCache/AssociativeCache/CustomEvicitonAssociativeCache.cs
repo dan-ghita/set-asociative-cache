@@ -30,8 +30,12 @@ namespace SetAssociativeCache
         /// <param name="value">The value.</param>
         public void Add(int tag, TValue value)
         {
-            if (m_container.Where(element => element.Tag.Equals(tag)).Count() == 0)
+            CacheEntry<TValue> foundElement = m_container.Find(element => element.Tag.Equals(tag));
+
+            if (foundElement == default(CacheEntry<TValue>))
                 Insert(tag, value);
+            else
+                foundElement.UpdateAccessTime();
         }
 
 
@@ -42,10 +46,20 @@ namespace SetAssociativeCache
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
         /// <exception cref="NotImplementedException"></exception>
-        public TValue Get(int tag) => m_container.Any(element => element.Tag.Equals(tag))
-            ? m_container.Where(element => element.Tag.Equals(tag)).First().Data
-            : default(TValue);
+        public TValue Get(int tag)
+        {
+            CacheEntry<TValue> foundElement = m_container.Find(element => element.Tag.Equals(tag));
 
+            if (foundElement == default(CacheEntry<TValue>))
+            {
+                return default(TValue);
+            }
+            else
+            {
+                foundElement.UpdateAccessTime();
+                return m_container.Where(element => element.Tag.Equals(tag)).First().Data
+            }
+        }
 
         /// <summary>
         /// Counts the elements in cache.
@@ -76,6 +90,6 @@ namespace SetAssociativeCache
         private IEvictionPolicy<TValue> m_evictionPolicy;
 
 
-        private IList<CacheEntry<TValue>> m_container;
+        private List<CacheEntry<TValue>> m_container;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SetAssociativeCache
+﻿using System;
+
+namespace SetAssociativeCache
 {
     /// <summary>
     /// Cache entry
@@ -15,7 +17,14 @@
         {
             Tag = tag;
             Data = value;
+
+            UpdateAccessTime();
         }
+
+        /// <summary>
+        /// Update access time
+        /// </summary>
+        public void UpdateAccessTime() => AccessTime = DateTime.Now; 
 
         /// <summary>
         /// Gets the tag.
@@ -27,6 +36,12 @@
         /// Gets the data.
         /// </summary>
         /// <return>The Data.</return>
-        public TValue Data { get; private set; }
+        public TValue Data { get; set; }
+
+        /// <summary>
+        /// Last access time
+        /// </summary>
+        /// <return>The access time.</return>
+        public DateTime AccessTime;
     }
 }
