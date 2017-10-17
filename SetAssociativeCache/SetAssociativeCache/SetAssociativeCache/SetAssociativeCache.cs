@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SetAssociativeCache.EvictionPolicy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +25,8 @@ namespace SetAssociativeCache
         /// <param name="numberOfSets">The number of sets.</param>
         /// <param name="numberOfWays">The number of ways.</param>
         /// <remarks>Default replacement strategy is LRU</remarks>
-        public SetAssociativeCache(int numberOfSets, int numberOfWays) : this(numberOfSets, numberOfWays, (size) => new LRUAssociativeCache<TValue>(size)) { }
+        public SetAssociativeCache(int numberOfSets, int numberOfWays) 
+            : this(numberOfSets, numberOfWays, () => new LRUEvictionPolicy<TValue>()) { }
 
 
         /// <summary>

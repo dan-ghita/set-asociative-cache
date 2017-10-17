@@ -36,12 +36,12 @@ namespace SetAssociativeCache
         /// Gets the data.
         /// </summary>
         /// <return>The Data.</return>
-        public TValue Data { get; set; }
+        public TValue Data { get; private set; }
 
         /// <summary>
         /// Last access time
         /// </summary>
         /// <return>The access time.</return>
-        public long AccessTime;
+        public long AccessTime { get; private set; }
     }
 }
