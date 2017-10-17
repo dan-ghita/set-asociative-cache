@@ -40,8 +40,6 @@ namespace SetAssociativeCache
         /// </summary>
         /// <param name="tag">The tag.</param>
         /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        /// <exception cref="NotImplementedException"></exception>
         public TValue Get(int tag) => m_container.Any(element => element.Tag.Equals(tag))
             ? m_container.Where(element => element.Tag.Equals(tag)).First().Data
             : default(TValue);
